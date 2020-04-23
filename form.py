@@ -1,4 +1,5 @@
 import sys
+import subprocess, os, platform
 
 from PyQt5.QtWidgets import (QApplication, QDialog,
                              QDialogButtonBox, QFormLayout, QGroupBox, QHBoxLayout,
@@ -25,6 +26,7 @@ class EasyFitWindow(QDialog):
         self.goal3 = QRadioButton("Strength Gain")
         self.r1 = QRadioButton("Male")
         self.r2 = QRadioButton("Female")
+        self.fileLabel = QLineEdit()
         self.createFormGroupBox()
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         buttonBox.accepted.connect(self.accept)
@@ -60,6 +62,8 @@ class EasyFitWindow(QDialog):
         layout.addRow(QLabel("Weight:"), self.weightLabel)
         layout.addRow(QLabel("Workout Goal:"), self.gbox)
         layout.addRow(QLabel("Gender:"), self.hbox)
+        layout.addRow(QLabel("Output File Name:"), self.fileLabel)
+        layout.addWidget(QLabel("(without file extension)"))
         self.formGroupBox.setLayout(layout)
 
     def accept(self):
@@ -77,12 +81,24 @@ class EasyFitWindow(QDialog):
             gen = 'M'
         else:
             gen = 'F'
+        filename = self.fileLabel.text() + ".txt"
 
         p = person.Person(n, a, h, w, g, gen)
-        print("\t\t", "DAILY DIET PLAN FOR ", n.upper(), ":")
-        p.diet.print_Diet()
-        print("\n\n\t\t", "WORKOUT PLAN FOR ", n.upper(), ":")
-        p.workout.printWorkout()
+
+        f = open(filename, 'w')
+
+        plan = "\t\tDAILY DIET PLAN FOR " + n.upper() + ":\n\n" + p.diet.print_Diet() + \
+               "\n\n\n\n\n\t\tWORKOUT PLAN FOR " + n.upper() + ":\n\n" + p.workout.printWorkout()
+
+        f.write(plan)
+        f.close()
+
+        if platform.system() == 'Darwin':  # macOS
+            subprocess.call(('open', filename))
+        elif platform.system() == 'Windows':  # Windows
+            os.startfile(filename)
+        else:  # linux variants
+            subprocess.call(('xdg-open', filename))
 
 
 if __name__ == "__main__":
@@ -90,13 +106,15 @@ if __name__ == "__main__":
     eazyFit = EasyFitWindow()
     sys.exit(eazyFit.exec())
 
-# from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
-#                               QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
-#                               QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
-#                               QVBoxLayout, QRadioButton, QWidget,QButtonGroup)
-# import person
-# import workout
+
 # import sys
+
+# from PyQt5.QtWidgets import (QApplication, QDialog,
+#                              QDialogButtonBox, QFormLayout, QGroupBox, QHBoxLayout,
+#                              QLabel, QLineEdit, QVBoxLayout, QRadioButton, QButtonGroup)
+
+# import person
+
 
 # class EasyFitWindow(QDialog):
 #     numGridRows = 3
@@ -111,7 +129,6 @@ if __name__ == "__main__":
 #         self.inchesLabel = QLineEdit()
 #         self.weightLabel = QLineEdit()
 #         self.gbox = QHBoxLayout()
-#         # self.goal = QLineEdit()
 #         self.goal1 = QRadioButton("Weight Loss")
 #         self.goal2 = QRadioButton("Maintenance")
 #         self.goal3 = QRadioButton("Strength Gain")
@@ -169,20 +186,12 @@ if __name__ == "__main__":
 #             gen = 'M'
 #         else:
 #             gen = 'F'
-#          # h, g, w, and gen each hold the user input height, goal, weight and gender as a str
-#         # print(n)
-#         # print(h)
-#         # print(w)
-#         # print(g)
-#         # print(gen)
+
 #         p = person.Person(n, a, h, w, g, gen)
+#         print("\t\t", "DAILY DIET PLAN FOR ", n.upper(), ":")
 #         p.diet.print_Diet()
+#         print("\n\n\t\t", "WORKOUT PLAN FOR ", n.upper(), ":")
 #         p.workout.printWorkout()
-
-
-
-
-
 
 
 # if __name__ == "__main__":
