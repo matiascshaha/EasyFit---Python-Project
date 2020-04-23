@@ -1,6 +1,6 @@
 class Diet:
     def __init__(self, goal, gender):
-        self.BMR = int()
+        self.BMR
         self.Calorie_Calc
 
     def compute_BMR(self,weight,height,age,gender):
