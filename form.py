@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (QApplication, QDialog,
                              QLabel, QLineEdit, QVBoxLayout, QRadioButton, QButtonGroup)
 
 import person
+import Database
 
 
 class EasyFitWindow(QDialog):
@@ -85,11 +86,26 @@ class EasyFitWindow(QDialog):
 
         p = person.Person(n, a, h, w, g, gen)
 
+        text = None
+        db = Database.Database()
+        if db.check(n) == True:
+            wChange = db.update(n,w)
+            if wChange >= 0:
+                text = "You have gained " + str(wChange) + " pounds.\n\n"
+            else:
+                wChange = str(wChange)
+                text = "You have lost " + wChange[1:] + " pounds.\n\n"
+        else:
+            text = "Welcome new user!\n\n"
+            db.newUser(n, a, h, w, gen)
+        db.close()
+
         f = open(filename, 'w')
 
         plan = "\t\tDAILY DIET PLAN FOR " + n.upper() + ":\n\n" + p.diet.print_Diet() + \
                "\n\n\n\n\n\t\tWORKOUT PLAN FOR " + n.upper() + ":\n\n" + p.workout.printWorkout()
 
+        f.write(text)
         f.write(plan)
         f.close()
 
@@ -198,6 +214,3 @@ if __name__ == "__main__":
 #     app = QApplication(sys.argv)
 #     eazyFit = EasyFitWindow()
 #     sys.exit(eazyFit.exec())
-
-
-
