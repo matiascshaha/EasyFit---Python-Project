@@ -14,7 +14,8 @@ class EasyFitWindow(QDialog):
         super(EasyFitWindow, self).__init__()
         self.hbox = QHBoxLayout()
         self.nameLabel = QLineEdit()
-        self.heightLabel = QLineEdit()
+        self.feetLabel = QLineEdit()
+        self.inchesLabel = QLineEdit()
         self.weightLabel = QLineEdit()
         self.gbox = QHBoxLayout()
         # self.goal = QLineEdit()
@@ -31,10 +32,10 @@ class EasyFitWindow(QDialog):
         mainLayout.addWidget(self.formGroupBox)
         mainLayout.addWidget(buttonBox)
         self.setLayout(mainLayout)
-        self.setWindowTitle("EazyFit Window")
+        self.setWindowTitle("EasyFit")
 
     def createFormGroupBox(self):
-        self.formGroupBox = QGroupBox("Form Layout")
+        self.formGroupBox = QGroupBox()
         self.genGroup = QButtonGroup(self.formGroupBox)
         self.goalGroup = QButtonGroup(self.formGroupBox)
         self.genGroup.addButton(self.r1)
@@ -52,7 +53,8 @@ class EasyFitWindow(QDialog):
         self.gbox.addStretch()
 
         layout.addRow(QLabel("Name:"), self.nameLabel)
-        layout.addRow(QLabel("Height:"), self.heightLabel)
+        layout.addRow(QLabel("Height:   (feet)"), self.feetLabel)
+        layout.addRow(QLabel("          (inches)"), self.inchesLabel)
         layout.addRow(QLabel("Weight:"), self.weightLabel)
         layout.addRow(QLabel("Workout Goal:"), self.gbox)
         layout.addRow(QLabel("Gender:"), self.hbox)
@@ -60,18 +62,18 @@ class EasyFitWindow(QDialog):
 
     def accept(self):
         n = self.nameLabel.text()
-        h = self.heightLabel.text()
-        w = self.weightLabel.text()
+        h = 12 * int(self.feetLabel.text()) + int(self.inchesLabel.text())
+        w = int(self.weightLabel.text())
         if self.goal1.isChecked():
-            g = "C"
+            g = 'C'
         elif self.goal2.isChecked():
-            g = "M"
+            g = 'M'
         else:
-            g = "B"
+            g = 'B'
         if self.r1.isChecked():
-            gen = "M"
+            gen = 'M'
         else:
-            gen = "F"
+            gen = 'F'
          # h, g, w, and gen each hold the user input height, goal, weight and gender as a str
         print(n)
         print(h)
@@ -84,81 +86,13 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     eazyFit = EasyFitWindow()
     sys.exit(eazyFit.exec())
-
-
-
-"""
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
-                             QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
-                             QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
-                             QVBoxLayout, QRadioButton)
-import person
-import workout
-import sys
-
-
-class EasyFitWindow(QDialog):
-    numGridRows = 3
-    numButtons = 4
-
-    def __init__(self):
-        super(EasyFitWindow, self).__init__()
-        self.hbox = QHBoxLayout()
-        self.nameLabel = QLineEdit()
-        self.heightLabel = QLineEdit()
-        self.weightLabel = QLineEdit()
-        self.goal = QLineEdit()
-        self.r1 = QRadioButton("Male")
-        self.r2 = QRadioButton("Female")
-        self.createFormGroupBox()
-        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.formGroupBox)
-        mainLayout.addWidget(buttonBox)
-        self.setLayout(mainLayout)
-        self.setWindowTitle("EazyFit Window")
-
-    def createFormGroupBox(self):
-        self.formGroupBox = QGroupBox("Form Layout")
-        layout = QFormLayout()
-        self.hbox.addWidget(self.r1)
-        self.hbox.addWidget(self.r2)
-        self.hbox.addStretch()
-        layout.addRow(QLabel("Name:"), self.nameLabel)
-        layout.addRow(QLabel("Height:"), self.heightLabel)
-        layout.addRow(QLabel("Weight:"), self.weightLabel)
-        layout.addRow(QLabel("Workout Goal:"), self.goal)
-        layout.addRow(QLabel("Gender:"), self.hbox)
-        self.formGroupBox.setLayout(layout)
-
-    def accept(self):
-        n = self.nameLabel.text()
-        h = self.heightLabel.text()
-        w = self.weightLabel.text()
-        g = self.goal.text()
-        if self.r1.isChecked():
-            gen = "M"
-        else:
-            gen = "F"
-        # h, g, w, and gen each hold the user input height, goal, weight and gender as a str
-        print(w)
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    eazyFit = EasyFitWindow()
-    sys.exit(eazyFit.exec())
-"""
-
 # from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
-#                              QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
-#                              QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
-#                              QVBoxLayout, QRadioButton)
+#                               QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
+#                               QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
+#                               QVBoxLayout, QRadioButton, QWidget,QButtonGroup)
 # import person
 # import workout
 # import sys
-
 
 # class EasyFitWindow(QDialog):
 #     numGridRows = 3
@@ -189,6 +123,13 @@ if __name__ == "__main__":
 
 #     def createFormGroupBox(self):
 #         self.formGroupBox = QGroupBox("Form Layout")
+#         self.genGroup = QButtonGroup(self.formGroupBox)
+#         self.goalGroup = QButtonGroup(self.formGroupBox)
+#         self.genGroup.addButton(self.r1)
+#         self.genGroup.addButton(self.r2)
+#         self.goalGroup.addButton(self.goal1)
+#         self.goalGroup.addButton(self.goal2)
+#         self.goalGroup.addButton(self.goal3)
 #         layout = QFormLayout()
 #         self.hbox.addWidget(self.r1)
 #         self.hbox.addWidget(self.r2)
@@ -219,11 +160,17 @@ if __name__ == "__main__":
 #             gen = "M"
 #         else:
 #             gen = "F"
-#         # h, g, w, and gen each hold the user input height, goal, weight and gender as a str
+#          # h, g, w, and gen each hold the user input height, goal, weight and gender as a str
+#         print(n)
+#         print(h)
 #         print(w)
+#         print(g)
+#         print(gen)
 
 
 # if __name__ == "__main__":
 #     app = QApplication(sys.argv)
 #     eazyFit = EasyFitWindow()
 #     sys.exit(eazyFit.exec())
+
+
