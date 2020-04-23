@@ -1,16 +1,13 @@
-class Person:
-    pass
+import workout
 
-    # def __init__(self,height,weight,gender,objective):​
-    #     self.height = height​
-    #     self.weight = weight​
-    #     self.gender = gender​
-    #     self.objective = objective          #to lose weight or gain muscle​
-    # def getHeight(self):​
-    #     return self.height​
-    # def getWeight(self):​
-    #     return self.weight​
-    # def getGender(self):​
-    #     return self.gender​
-    # def getObjective(self):​
-    #     return self.objective l
+
+class Person:
+    def __init__(self, name, age, height, weight, goal, gender):
+        self.name = name
+        self.age = age;
+        self.height = height
+        self.weight = weight
+        self.goal = goal
+        self.gender = gender
+        self.workout = workout(goal, gender)
+
