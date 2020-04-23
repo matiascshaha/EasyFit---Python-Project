@@ -11,7 +11,7 @@ class Diet:
 
     def print_Diet(self):
         print("Total Calories: " + str(self.Calorie_Calc))
-        print("Calories of protein: " + str(self.protein_proportion) + " (" + str(self.protein_proportion /4) + "g)")
+        print("Calories of Protein: " + str(self.protein_proportion) + " (" + str(self.protein_proportion /4) + "g)")
         print("Calories of Carb: " + str(self.carb_proportion) + " (" + str(self.carb_proportion /4) + "g)")
         print("Calories of Fat: " + str(self.fat_proportion) + " (" + str(self.fat_proportion /9) + "g)")
 
