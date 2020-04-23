@@ -1,4 +1,4 @@
-class Workout:
+class workout:
     def __init__(self, goal, gender):
         self.goal = goal
         self.gender = gender

@@ -64,7 +64,7 @@ class EasyFitWindow(QDialog):
 
     def accept(self):
         n = self.nameLabel.text()
-        a = int(self.ageLabel())
+        a = int(self.ageLabel.text())
         h = 12 * int(self.feetLabel.text()) + int(self.inchesLabel.text())
         w = int(self.weightLabel.text())
         if self.goal1.isChecked():
@@ -83,7 +83,10 @@ class EasyFitWindow(QDialog):
         # print(w)
         # print(g)
         # print(gen)
-        p = person(n, a, h, w, g, gen)
+        p = person.Person(n, a, h, w, g, gen)
+        p.diet.print_Diet()
+        p.workout.printWorkout()
+
 
 
 
