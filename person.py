@@ -11,5 +11,6 @@ class Person:
         self.goal = goal
         self.gender = gender
         self.workout = workout.workout(goal, gender)
-        self.diet = Diet.Diet(weight,height,age,gender)
+        self.diet = Diet.Diet(weight, height, age, goal, gender)
+      
 
